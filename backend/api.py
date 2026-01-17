@@ -10,6 +10,7 @@ import time
 
 # basic metrics
 START_TIME = time.time()
+api_bp = Blueprint('api', __name__, url_prefix='/api')
 
 
 @api_bp.route('/metrics', methods=['GET'])
@@ -21,7 +22,6 @@ def metrics():
     uptime = int(time.time() - START_TIME)
     return jsonify({'users': users, 'events': events, 'vendors': vendors, 'bookings': bookings, 'uptime_seconds': uptime})
 
-api_bp = Blueprint('api', __name__, url_prefix='/api')
 
 
 def require_api_key(fn):

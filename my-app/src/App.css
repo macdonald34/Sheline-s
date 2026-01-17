@@ -1,30 +1,35 @@
 :root{
-  --bg: #f6f8fb;
+  --bg: #ffffff;
+  --bg-secondary: #f9fafb;
   --surface: #ffffff;
   --muted: #6b7280;
-  --text: #0f172a;
-  --primary: #2563eb;
-  --primary-600: #1d4ed8;
-  --success: #16a34a;
+  --text: #1f2937;
+  --primary: #4f46e5;
+  --primary-dark: #4338ca;
+  --secondary: #0891b2;
+  --success: #10b981;
   --danger: #ef4444;
-  --glass: rgba(255,255,255,0.6);
-  --radius: 12px;
-  --shadow: 0 6px 18px rgba(16,24,40,0.08);
+  --warning: #f59e0b;
+  --glass: rgba(255,255,255,0.95);
+  --radius: 0.5rem;
+  --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Segoe UI Mono", monospace;
-  --ui-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --ui-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   font-synthesis: none;
 }
 
 @media (prefers-color-scheme: dark){
   :root{
-    --bg: #0b1220;
-    --surface: #061025;
-    --muted: #9aa4b2;
-    --text: #e6eef8;
-    --primary: #3b82f6;
-    --primary-600: #2563eb;
-    --glass: rgba(6,16,37,0.5);
-    --shadow: 0 8px 22px rgba(2,6,23,0.7);
+    --bg: #111827;
+    --bg-secondary: #1f2937;
+    --surface: #1f2937;
+    --muted: #9ca3af;
+    --text: #f3f4f6;
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --glass: rgba(17,24,39,0.95);
   }
 }
 
@@ -32,22 +37,26 @@
 *,
 *::before,
 *::after{box-sizing: border-box}
-html,body,#root{height:100%}
+html,body,#root{height:100%; width: 100%}
 body{
   margin:0;
+  padding:0;
   font-family: var(--ui-sans);
   font-size:16px;
   color:var(--text);
-  background: linear-gradient(180deg,var(--bg), color-mix(in srgb, var(--bg) 92%, transparent)) fixed;
+  background-color: var(--bg);
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
-  line-height:1.45;
+  line-height:1.6;
+  overflow: hidden;
 }
 
 /* App layout */
 .app{
-  min-height:100vh;
+  width: 100%;
+  height: 100%;
   display:flex;
+  flex-direction: column;
   flex-direction:column;
   gap:24px;
   padding:32px;

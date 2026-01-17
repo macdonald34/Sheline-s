@@ -36,7 +36,14 @@ function formatMonthYear(date) {
 /* --- Card Component --- */
 function Card({ children }) {
   return (
-    <div style={{ background: 'inherit', borderRadius: 8, padding: 16 }}>
+    <div style={{ 
+      background: 'var(--surface)', 
+      borderRadius: 'var(--radius)',
+      padding: '1.5rem',
+      boxShadow: 'var(--shadow-md)',
+      border: '1px solid rgba(0,0,0,0.05)',
+      transition: 'all 0.2s ease'
+    }}>
       {children}
     </div>
   );
@@ -63,24 +70,80 @@ function MainContent({ sampleTodos, theme, openModal }) {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-        <h2 style={{ margin: 0 }}>Dashboard</h2>
-        <button onClick={() => openModal('about')} style={{ padding: '8px 12px', cursor: 'pointer' }}>About</button>
+      <div style={{ 
+        background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.08) 0%, rgba(8, 145, 178, 0.08) 100%)',
+        borderRadius: '1rem',
+        padding: '2rem',
+        marginBottom: '2rem',
+        border: '1px solid var(--border)'
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <h1 style={{ margin: 0, color: 'var(--primary)', fontSize: '2.5rem' }}>Welcome to Dashboard</h1>
+            <p style={{ margin: '0.5rem 0 0', color: 'var(--text-light)', fontSize: '1.05rem' }}>Manage your events, vendors, and bookings in one place</p>
+          </div>
+          <button onClick={() => openModal('about')} style={{ background: 'var(--secondary)', fontWeight: 600, padding: '0.875rem 1.5rem', fontSize: '1rem' }}>Learn About Sheline</button>
+        </div>
       </div>
       
-      <h3>Quick Tasks</h3>
-      <div style={{ marginBottom: 16 }}>
-        <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
-          <input value={newTodo} onChange={(e) => setNewTodo(e.target.value)} placeholder="Add a task..." style={{ flex: 1, padding: 8, borderRadius: 4, border: '1px solid #ddd' }} />
-          <button onClick={addTodo} style={{ padding: '8px 12px', background: '#0b5cff', color: 'white', cursor: 'pointer', borderRadius: 4, border: 'none' }}>Add</button>
-        </div>
-        {todos.map(todo => (
-          <div key={todo.id} style={{ display: 'flex', gap: 8, padding: 8, background: theme === 'dark' ? '#1a2332' : '#f0f4f8', borderRadius: 4, marginBottom: 8, alignItems: 'center' }}>
-            <input type="checkbox" checked={todo.done} onChange={() => toggleTodo(todo.id)} />
-            <span style={{ flex: 1, textDecoration: todo.done ? 'line-through' : 'none', opacity: todo.done ? 0.6 : 1 }}>{todo.text}</span>
-            <button onClick={() => deleteTodo(todo.id)} style={{ padding: '4px 8px', background: '#ff4444', color: 'white', cursor: 'pointer', borderRadius: 4, border: 'none', fontSize: 12 }}>Delete</button>
+      <div style={{ marginBottom: '2.5rem' }}>
+        <h3 style={{ color: 'var(--text)', marginBottom: '1rem' }}>Quick Tasks</h3>
+        <Card>
+          <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem' }}>
+            <input 
+              value={newTodo} 
+              onChange={(e) => setNewTodo(e.target.value)} 
+              placeholder="Add a task..." 
+              style={{ 
+                flex: 1, 
+                padding: '0.75rem', 
+                borderRadius: 'var(--radius)', 
+                border: '1px solid var(--border)',
+                fontSize: '0.95rem'
+              }} 
+            />
+            <button onClick={addTodo}>Add Task</button>
           </div>
-        ))}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            {todos.map(todo => (
+              <div key={todo.id} style={{ 
+                display: 'flex', 
+                gap: '0.75rem', 
+                padding: '0.875rem', 
+                background: 'var(--bg-secondary)', 
+                borderRadius: 'var(--radius)',
+                alignItems: 'center',
+                transition: 'all 0.2s ease',
+                borderLeft: todo.done ? '3px solid var(--success)' : '3px solid transparent'
+              }}>
+                <input 
+                  type="checkbox" 
+                  checked={todo.done} 
+                  onChange={() => toggleTodo(todo.id)}
+                  style={{ cursor: 'pointer', width: '18px', height: '18px' }}
+                />
+                <span style={{ 
+                  flex: 1, 
+                  textDecoration: todo.done ? 'line-through' : 'none', 
+                  opacity: todo.done ? 0.6 : 1,
+                  fontSize: '0.95rem'
+                }}>
+                  {todo.text}
+                </span>
+                <button 
+                  onClick={() => deleteTodo(todo.id)} 
+                  className="danger"
+                  style={{ 
+                    padding: '0.4rem 0.8rem', 
+                    fontSize: '0.85rem'
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
+          </div>
+        </Card>
       </div>
       
       <CalenderView />
@@ -122,13 +185,183 @@ function useAuth() {
 function Modal({ open, onClose, title, children }) {
   if (!open) return null;
   return (
-    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }} onClick={onClose}>
-      <div style={{ background: 'white', borderRadius: 8, padding: 24, width: 'auto', maxWidth: 500, boxShadow: '0 8px 32px rgba(0,0,0,0.24)' }} onClick={(e) => e.stopPropagation()}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-          <h3 style={{ margin: 0 }}>{title}</h3>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer' }}>×</button>
+    <div style={{ 
+      position: 'fixed', 
+      inset: 0, 
+      background: 'rgba(0,0,0,0.6)', 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      zIndex: 1000,
+      backdropFilter: 'blur(4px)'
+    }} onClick={onClose}>
+      <div style={{ 
+        background: 'var(--surface)', 
+        color: 'var(--text)', 
+        borderRadius: '0.875rem', 
+        padding: '2rem', 
+        width: 'auto', 
+        maxWidth: '600px',
+        maxHeight: '85vh',
+        overflow: 'auto',
+        boxShadow: '0 20px 25px rgba(0,0,0,0.15), 0 8px 10px rgba(0,0,0,0.1)',
+        border: '1px solid var(--border)'
+      }} onClick={(e) => e.stopPropagation()}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+          <h2 style={{ margin: 0, color: 'var(--primary)' }}>{title}</h2>
+          <button onClick={onClose} style={{ 
+            background: 'none', 
+            border: 'none', 
+            fontSize: '1.5rem', 
+            cursor: 'pointer',
+            color: 'var(--text-light)',
+            transition: 'color 0.2s'
+          }} onMouseOver={(e) => e.target.style.color = 'var(--text)'} onMouseOut={(e) => e.target.style.color = 'var(--text-light)'}>×</button>
         </div>
         {children}
+      </div>
+    </div>
+  );
+}
+
+/* --- About Component --- */
+function AboutComponent() {
+  const features = [
+    { icon: '📅', title: 'Event Management', desc: 'Create and manage events effortlessly' },
+    { icon: '🤝', title: 'Vendor Coordination', desc: 'Connect with and manage vendors' },
+    { icon: '📊', title: 'Booking System', desc: 'Streamlined booking and reservations' },
+    { icon: '🔐', title: 'Secure Auth', desc: 'JWT-based authentication' },
+    { icon: '📱', title: 'Responsive Design', desc: 'Works on all devices' },
+    { icon: '⚡', title: 'Fast & Reliable', desc: 'Built with modern tech stack' },
+  ];
+
+  return (
+    <div>
+      <div style={{ 
+        background: 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)', 
+        color: 'white',
+        padding: '2rem',
+        borderRadius: '0.75rem',
+        marginBottom: '2rem',
+        textAlign: 'center'
+      }}>
+        <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.75rem' }}>Welcome to Sheline</h3>
+        <p style={{ margin: 0, opacity: 0.95, fontSize: '1.05rem' }}>Your complete event management solution</p>
+      </div>
+
+      <div style={{ marginBottom: '2rem' }}>
+        <h4 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>About Us</h4>
+        <p style={{ lineHeight: '1.8', color: 'var(--text)', margin: '0 0 1rem 0' }}>
+          Sheline is a modern, full-stack event management platform designed to simplify the entire event lifecycle. From planning to execution, we provide intuitive tools for managing events, coordinating with vendors, and processing bookings—all in one place.
+        </p>
+        <p style={{ lineHeight: '1.8', color: 'var(--text)', margin: 0 }}>
+          Built with React, Python/Flask, and PostgreSQL, our platform delivers a seamless experience with real-time updates and secure authentication.
+        </p>
+      </div>
+
+      <div style={{ marginBottom: '2rem' }}>
+        <h4 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>Key Features</h4>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+          gap: '1rem'
+        }}>
+          {features.map((f, i) => (
+            <div 
+              key={i} 
+              style={{ 
+                background: 'var(--bg-secondary)',
+                padding: '1.25rem',
+                borderRadius: '0.5rem',
+                border: '1px solid var(--border)',
+                textAlign: 'center',
+                transition: 'all 0.3s ease',
+                cursor: 'pointer'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.boxShadow = 'var(--shadow-md)';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            >
+              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{f.icon}</div>
+              <div style={{ fontWeight: 600, color: 'var(--text)', marginBottom: '0.25rem', fontSize: '0.95rem' }}>{f.title}</div>
+              <div style={{ fontSize: '0.85rem', color: 'var(--text-light)' }}>{f.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ marginBottom: '2rem' }}>
+        <h4 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>Tech Stack</h4>
+        <div style={{ 
+          background: 'var(--bg-secondary)',
+          padding: '1.5rem',
+          borderRadius: '0.5rem',
+          border: '1px solid var(--border)'
+        }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+            <div>
+              <h5 style={{ margin: '0 0 0.5rem 0', color: 'var(--primary)', fontSize: '0.95rem' }}>Frontend</h5>
+              <ul style={{ margin: '0.5rem 0', paddingLeft: '1.25rem', color: 'var(--text)' }}>
+                <li style={{ marginBottom: '0.25rem' }}>React 18</li>
+                <li style={{ marginBottom: '0.25rem' }}>Vite</li>
+                <li>Modern CSS3</li>
+              </ul>
+            </div>
+            <div>
+              <h5 style={{ margin: '0 0 0.5rem 0', color: 'var(--primary)', fontSize: '0.95rem' }}>Backend</h5>
+              <ul style={{ margin: '0.5rem 0', paddingLeft: '1.25rem', color: 'var(--text)' }}>
+                <li style={{ marginBottom: '0.25rem' }}>Flask</li>
+                <li style={{ marginBottom: '0.25rem' }}>SQLAlchemy</li>
+                <li>PostgreSQL/SQLite</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h4 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>Get Started</h4>
+        <div style={{ 
+          background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(8, 145, 178, 0.1) 100%)',
+          padding: '1.5rem',
+          borderRadius: '0.5rem',
+          border: '1px solid var(--border)'
+        }}>
+          <p style={{ margin: '0 0 1rem 0', color: 'var(--text)', lineHeight: '1.6' }}>
+            Visit our GitHub repository for documentation, API guides, and deployment instructions.
+          </p>
+          <div style={{ display: 'flex', gap: '0.75rem' }}>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" style={{ 
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.625rem 1rem',
+              background: 'var(--primary)',
+              color: 'white',
+              borderRadius: '0.5rem',
+              textDecoration: 'none',
+              fontWeight: 500,
+              transition: 'background 0.2s'
+            }} onMouseOver={(e) => e.currentTarget.style.background = 'var(--primary-dark)'} onMouseOut={(e) => e.currentTarget.style.background = 'var(--primary)'}>GitHub</a>
+            <a href="mailto:team@sheline.app" style={{ 
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.625rem 1rem',
+              background: 'var(--secondary)',
+              color: 'white',
+              borderRadius: '0.5rem',
+              textDecoration: 'none',
+              fontWeight: 500,
+              transition: 'background 0.2s'
+            }} onMouseOver={(e) => e.currentTarget.style.background = '#0a7ba0'} onMouseOut={(e) => e.currentTarget.style.background = 'var(--secondary)'}>Contact</a>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -506,27 +739,41 @@ function AppInner({ theme, setTheme, modal, openModal, closeModal }) {
 
   if (!user) {
     return (
-      <div style={{ padding: 16 }}>
-        <Login onSuccess={() => {}} />
+      <div style={{ 
+        width: '100%', 
+        height: '100%', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        padding: 16 
+      }}>
+        <div style={{
+          background: 'white',
+          borderRadius: '1rem',
+          padding: '2rem',
+          boxShadow: '0 20px 25px rgba(0, 0, 0, 0.15)',
+          maxWidth: '400px',
+          width: '100%'
+        }}>
+          <Login onSuccess={() => {}} />
+        </div>
       </div>
     );
   }
 
   return (
-    <div style={{ fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial", color: theme === "dark" ? "#e6eef8" : "#0f172a", background: theme === "dark" ? "#0b1220" : "#f7fbff", minHeight: "100vh", padding: 16 }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <CoreLayout>
-          <Card>
+    <div className="app" style={{ fontFamily: "var(--ui-sans)", color: 'var(--text)', background: 'var(--bg)' }}>
+      <CoreLayout>
+        <div style={{ flex: 1, overflow: 'auto', padding: '2rem' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <MainContent sampleTodos={sampleTodos} theme={theme} openModal={openModal} />
-          </Card>
-        </CoreLayout>
-      </div>
+          </div>
+        </div>
+      </CoreLayout>
 
-      <Modal open={modal.open && modal.key === "about"} onClose={closeModal} title="About">
-        <p style={{ marginTop: 0 }}>
-          This is a small demo app showing multiple components in one file. Toggle theme, try the todo list, or submit
-          the contact form.
-        </p>
+      <Modal open={modal.open && modal.key === "about"} onClose={closeModal} title="About Sheline">
+        <AboutComponent />
       </Modal>
 
       <Modal open={modal.open && modal.key === "contact"} onClose={closeModal} title="Message sent">

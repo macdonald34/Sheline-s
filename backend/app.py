@@ -25,6 +25,9 @@ def create_app():
     ma.init_app(app)
     app.register_blueprint(api_bp)
 
+    # Ensure DB tables exist at startup
+    init_db(app)
+
     @app.route('/', defaults={'path': ''})
     @app.route('/<path:path>')
     def serve_frontend(path):
@@ -36,9 +39,7 @@ def create_app():
             return send_from_directory(app.static_folder, 'index.html')
         return ("Frontend not built. Run frontend build and copy into backend/static", 501)
 
-    @app.before_first_request
-    def ensure_database():
-        init_db(app)
+    # `init_db` already called at startup; no before_first_request decorator used
 
     # JSON error handlers
     from flask import jsonify
