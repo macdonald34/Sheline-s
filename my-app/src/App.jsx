@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo, useContext } from "react";
+import Footer from "./components/Core Layout/Footer";
+import Profile from "./components/Authentication/Profile";
 
 const CAL_STORAGE = "calender_view_events_v1";
 
@@ -227,12 +229,19 @@ function Modal({ open, onClose, title, children }) {
 /* --- About Component --- */
 function AboutComponent() {
   const features = [
-    { icon: '📅', title: 'Event Management', desc: 'Create and manage events effortlessly' },
-    { icon: '🤝', title: 'Vendor Coordination', desc: 'Connect with and manage vendors' },
-    { icon: '📊', title: 'Booking System', desc: 'Streamlined booking and reservations' },
-    { icon: '🔐', title: 'Secure Auth', desc: 'JWT-based authentication' },
-    { icon: '📱', title: 'Responsive Design', desc: 'Works on all devices' },
-    { icon: '⚡', title: 'Fast & Reliable', desc: 'Built with modern tech stack' },
+    { icon: '📅', title: 'Event Planning', desc: 'Create, schedule, and manage events with ease' },
+    { icon: '👥', title: 'Attendee Management', desc: 'Track registrations and RSVPs seamlessly' },
+    { icon: '🤝', title: 'Vendor Coordination', desc: 'Connect with caterers, venues, and service providers' },
+    { icon: '💳', title: 'Payment Processing', desc: 'Secure booking and payment handling' },
+    { icon: '📊', title: 'Analytics & Reporting', desc: 'Get insights into event performance' },
+    { icon: '⚡', title: 'Real-time Updates', desc: 'Live notifications and status updates' },
+  ];
+
+  const useCases = [
+    { icon: '💒', title: 'Weddings', desc: 'Plan the perfect day with vendor coordination' },
+    { icon: '🎉', title: 'Conferences', desc: 'Manage large-scale events and attendees' },
+    { icon: '🎓', title: 'Corporate Events', desc: 'Organize team building and company events' },
+    { icon: '🎊', title: 'Celebrations', desc: 'Birthday parties, anniversaries, and more' },
   ];
 
   return (
@@ -240,30 +249,34 @@ function AboutComponent() {
       <div style={{ 
         background: 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)', 
         color: 'white',
-        padding: '2rem',
+        padding: '2.5rem 2rem',
         borderRadius: '0.75rem',
         marginBottom: '2rem',
         textAlign: 'center'
       }}>
-        <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.75rem' }}>Welcome to Sheline</h3>
-        <p style={{ margin: 0, opacity: 0.95, fontSize: '1.05rem' }}>Your complete event management solution</p>
+        <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '2rem', fontWeight: 700 }}>🎯 Sheline</h3>
+        <p style={{ margin: 0, opacity: 0.95, fontSize: '1.1rem', fontWeight: 500 }}>Your Complete Event Management Platform</p>
+        <p style={{ margin: '0.75rem 0 0 0', opacity: 0.9, fontSize: '0.95rem' }}>Simplify planning, coordination, and execution</p>
       </div>
 
-      <div style={{ marginBottom: '2rem' }}>
-        <h4 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>About Us</h4>
-        <p style={{ lineHeight: '1.8', color: 'var(--text)', margin: '0 0 1rem 0' }}>
-          Sheline is a modern, full-stack event management platform designed to simplify the entire event lifecycle. From planning to execution, we provide intuitive tools for managing events, coordinating with vendors, and processing bookings—all in one place.
+      <div style={{ marginBottom: '2.5rem' }}>
+        <h4 style={{ color: 'var(--primary)', marginBottom: '1rem', fontSize: '1.3rem', fontWeight: 600 }}>About Sheline</h4>
+        <p style={{ lineHeight: '1.8', color: 'var(--text)', margin: '0 0 1rem 0', fontSize: '1rem' }}>
+          Sheline is a modern, comprehensive event management platform that empowers organizers to create memorable experiences. Whether you're planning a wedding, corporate conference, or celebration, we provide all the tools you need in one integrated platform.
         </p>
-        <p style={{ lineHeight: '1.8', color: 'var(--text)', margin: 0 }}>
-          Built with React, Python/Flask, and PostgreSQL, our platform delivers a seamless experience with real-time updates and secure authentication.
+        <p style={{ lineHeight: '1.8', color: 'var(--text)', margin: '0 0 1rem 0', fontSize: '1rem' }}>
+          <strong>Our Mission:</strong> To eliminate the complexity of event planning by offering intuitive, powerful tools for managing every aspect—from attendee registration and vendor coordination to payment processing and post-event analytics.
+        </p>
+        <p style={{ lineHeight: '1.8', color: 'var(--text)', margin: 0, fontSize: '1rem' }}>
+          Built with modern technology and designed with event planners in mind, Sheline delivers a seamless, secure experience that scales from intimate gatherings to large-scale events.
         </p>
       </div>
 
-      <div style={{ marginBottom: '2rem' }}>
-        <h4 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>Key Features</h4>
+      <div style={{ marginBottom: '2.5rem' }}>
+        <h4 style={{ color: 'var(--primary)', marginBottom: '1rem', fontSize: '1.3rem', fontWeight: 600 }}>Core Features</h4>
         <div style={{ 
           display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
           gap: '1rem'
         }}>
           {features.map((f, i) => (
@@ -271,53 +284,94 @@ function AboutComponent() {
               key={i} 
               style={{ 
                 background: 'var(--bg-secondary)',
-                padding: '1.25rem',
-                borderRadius: '0.5rem',
+                padding: '1.5rem',
+                borderRadius: '0.75rem',
                 border: '1px solid var(--border)',
                 textAlign: 'center',
                 transition: 'all 0.3s ease',
                 cursor: 'pointer'
               }}
               onMouseOver={(e) => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = 'var(--shadow-md)';
+                e.currentTarget.style.transform = 'translateY(-6px)';
+                e.currentTarget.style.boxShadow = '0 8px 16px rgba(79, 70, 229, 0.15)';
               }}
               onMouseOut={(e) => {
                 e.currentTarget.style.transform = 'translateY(0)';
                 e.currentTarget.style.boxShadow = 'none';
               }}
             >
-              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{f.icon}</div>
-              <div style={{ fontWeight: 600, color: 'var(--text)', marginBottom: '0.25rem', fontSize: '0.95rem' }}>{f.title}</div>
-              <div style={{ fontSize: '0.85rem', color: 'var(--text-light)' }}>{f.desc}</div>
+              <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>{f.icon}</div>
+              <div style={{ fontWeight: 700, color: 'var(--text)', marginBottom: '0.5rem', fontSize: '1rem' }}>{f.title}</div>
+              <div style={{ fontSize: '0.9rem', color: 'var(--text-light)', lineHeight: '1.4' }}>{f.desc}</div>
             </div>
           ))}
         </div>
       </div>
 
-      <div style={{ marginBottom: '2rem' }}>
-        <h4 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>Tech Stack</h4>
+      <div style={{ marginBottom: '2.5rem' }}>
+        <h4 style={{ color: 'var(--primary)', marginBottom: '1rem', fontSize: '1.3rem', fontWeight: 600 }}>Perfect For</h4>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+          gap: '1rem'
+        }}>
+          {useCases.map((u, i) => (
+            <div 
+              key={i} 
+              style={{ 
+                background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(8, 145, 178, 0.1) 100%)',
+                padding: '1.5rem',
+                borderRadius: '0.75rem',
+                border: '1px solid var(--border)',
+                textAlign: 'center',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
+            >
+              <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>{u.icon}</div>
+              <div style={{ fontWeight: 600, color: 'var(--primary)', marginBottom: '0.3rem' }}>{u.title}</div>
+              <div style={{ fontSize: '0.9rem', color: 'var(--text-light)' }}>{u.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ marginBottom: '2.5rem' }}>
+        <h4 style={{ color: 'var(--primary)', marginBottom: '1rem', fontSize: '1.3rem', fontWeight: 600 }}>Tech Stack</h4>
         <div style={{ 
           background: 'var(--bg-secondary)',
-          padding: '1.5rem',
-          borderRadius: '0.5rem',
+          padding: '2rem',
+          borderRadius: '0.75rem',
           border: '1px solid var(--border)'
         }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem' }}>
             <div>
-              <h5 style={{ margin: '0 0 0.5rem 0', color: 'var(--primary)', fontSize: '0.95rem' }}>Frontend</h5>
-              <ul style={{ margin: '0.5rem 0', paddingLeft: '1.25rem', color: 'var(--text)' }}>
-                <li style={{ marginBottom: '0.25rem' }}>React 18</li>
-                <li style={{ marginBottom: '0.25rem' }}>Vite</li>
-                <li>Modern CSS3</li>
+              <h5 style={{ margin: '0 0 1rem 0', color: 'var(--primary)', fontSize: '1.05rem', fontWeight: 700 }}>🎨 Frontend</h5>
+              <ul style={{ margin: 0, paddingLeft: '1.5rem', color: 'var(--text)', lineHeight: '1.8' }}>
+                <li style={{ marginBottom: '0.5rem', fontSize: '0.95rem' }}>React 18 with Hooks</li>
+                <li style={{ marginBottom: '0.5rem', fontSize: '0.95rem' }}>Vite Build Tool</li>
+                <li style={{ fontSize: '0.95rem' }}>Modern CSS3 & Responsive Design</li>
               </ul>
             </div>
             <div>
-              <h5 style={{ margin: '0 0 0.5rem 0', color: 'var(--primary)', fontSize: '0.95rem' }}>Backend</h5>
-              <ul style={{ margin: '0.5rem 0', paddingLeft: '1.25rem', color: 'var(--text)' }}>
-                <li style={{ marginBottom: '0.25rem' }}>Flask</li>
-                <li style={{ marginBottom: '0.25rem' }}>SQLAlchemy</li>
-                <li>PostgreSQL/SQLite</li>
+              <h5 style={{ margin: '0 0 1rem 0', color: 'var(--primary)', fontSize: '1.05rem', fontWeight: 700 }}>⚙️ Backend</h5>
+              <ul style={{ margin: 0, paddingLeft: '1.5rem', color: 'var(--text)', lineHeight: '1.8' }}>
+                <li style={{ marginBottom: '0.5rem', fontSize: '0.95rem' }}>Flask & SQLAlchemy</li>
+                <li style={{ marginBottom: '0.5rem', fontSize: '0.95rem' }}>JWT Authentication</li>
+                <li style={{ fontSize: '0.95rem' }}>PostgreSQL / SQLite</li>
+              </ul>
+            </div>
+            <div>
+              <h5 style={{ margin: '0 0 1rem 0', color: 'var(--primary)', fontSize: '1.05rem', fontWeight: 700 }}>🚀 Deployment</h5>
+              <ul style={{ margin: 0, paddingLeft: '1.5rem', color: 'var(--text)', lineHeight: '1.8' }}>
+                <li style={{ marginBottom: '0.5rem', fontSize: '0.95rem' }}>Docker Containerization</li>
+                <li style={{ marginBottom: '0.5rem', fontSize: '0.95rem' }}>GitHub Actions CI/CD</li>
+                <li style={{ fontSize: '0.95rem' }}>Render & Heroku Ready</li>
               </ul>
             </div>
           </div>
@@ -325,41 +379,43 @@ function AboutComponent() {
       </div>
 
       <div>
-        <h4 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>Get Started</h4>
+        <h4 style={{ color: 'var(--primary)', marginBottom: '1rem', fontSize: '1.3rem', fontWeight: 600 }}>Ready to Get Started?</h4>
         <div style={{ 
           background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(8, 145, 178, 0.1) 100%)',
-          padding: '1.5rem',
-          borderRadius: '0.5rem',
+          padding: '2rem',
+          borderRadius: '0.75rem',
           border: '1px solid var(--border)'
         }}>
-          <p style={{ margin: '0 0 1rem 0', color: 'var(--text)', lineHeight: '1.6' }}>
-            Visit our GitHub repository for documentation, API guides, and deployment instructions.
+          <p style={{ margin: '0 0 1.5rem 0', color: 'var(--text)', lineHeight: '1.6', fontSize: '1rem' }}>
+            Start planning your next event today. Create an account, set up your event, invite vendors, and manage everything from a single dashboard.
           </p>
-          <div style={{ display: 'flex', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
             <a href="https://github.com" target="_blank" rel="noopener noreferrer" style={{ 
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.5rem',
-              padding: '0.625rem 1rem',
+              padding: '0.75rem 1.5rem',
               background: 'var(--primary)',
               color: 'white',
               borderRadius: '0.5rem',
               textDecoration: 'none',
-              fontWeight: 500,
-              transition: 'background 0.2s'
-            }} onMouseOver={(e) => e.currentTarget.style.background = 'var(--primary-dark)'} onMouseOut={(e) => e.currentTarget.style.background = 'var(--primary)'}>GitHub</a>
+              fontWeight: 600,
+              transition: 'all 0.2s',
+              fontSize: '0.95rem'
+            }} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>📚 View Docs</a>
             <a href="mailto:team@sheline.app" style={{ 
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.5rem',
-              padding: '0.625rem 1rem',
+              padding: '0.75rem 1.5rem',
               background: 'var(--secondary)',
               color: 'white',
               borderRadius: '0.5rem',
               textDecoration: 'none',
-              fontWeight: 500,
-              transition: 'background 0.2s'
-            }} onMouseOver={(e) => e.currentTarget.style.background = '#0a7ba0'} onMouseOut={(e) => e.currentTarget.style.background = 'var(--secondary)'}>Contact</a>
+              fontWeight: 600,
+              transition: 'all 0.2s',
+              fontSize: '0.95rem'
+            }} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>✉️ Contact Us</a>
           </div>
         </div>
       </div>
@@ -455,17 +511,38 @@ function useEvents() {
 }
 
 /* --- CORE LAYOUT wrapper (Header/Footer/Sidebar placement) --- */
-function CoreLayout({ children }) {
+function CoreLayout({ children, onProfileClick }) {
   const { user, logout } = useAuth();
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12, paddingBottom: 12, borderBottom: "1px solid var(--border, #e5e7eb)" }}>
         <div>
-          <h1 style={{ margin: 0 }}>Sheline</h1>
+          <h1 style={{ margin: 0, fontSize: 28, fontWeight: 700 }}>Sheline</h1>
           <div style={{ fontSize: 13, opacity: 0.8 }}>Welcome, {user?.name}</div>
         </div>
-        <div style={{ display: "flex", gap: 8 }}>
-          <button onClick={logout} style={{ padding: "8px 10px" }}>Sign out</button>
+        <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+          <button
+            onClick={onProfileClick}
+            style={{
+              width: 44,
+              height: 44,
+              borderRadius: "50%",
+              border: "2px solid var(--primary, #4f46e5)",
+              background: "linear-gradient(135deg, var(--primary, #4f46e5) 0%, var(--secondary, #0891b2) 100%)",
+              color: "white",
+              fontSize: 20,
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontWeight: 600,
+            }}
+            title="View Profile"
+          >
+            {(user?.name || "U").charAt(0).toUpperCase()}
+          </button>
+          <button onClick={logout} style={{ padding: "8px 16px", borderRadius: "6px", background: "var(--error, #ef4444)", color: "white", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600 }}>Sign out</button>
         </div>
       </div>
 
@@ -477,9 +554,7 @@ function CoreLayout({ children }) {
         </aside>
       </div>
 
-      <footer style={{ marginTop: 24, textAlign: "center", opacity: 0.8 }}>
-        © {new Date().getFullYear()} Sheline
-      </footer>
+      <Footer />
     </div>
   );
 }
@@ -762,15 +837,23 @@ function AppInner({ theme, setTheme, modal, openModal, closeModal }) {
     );
   }
 
+  const handleProfileClick = () => {
+    openModal("profile", null);
+  };
+
   return (
     <div className="app" style={{ fontFamily: "var(--ui-sans)", color: 'var(--text)', background: 'var(--bg)' }}>
-      <CoreLayout>
+      <CoreLayout onProfileClick={handleProfileClick}>
         <div style={{ flex: 1, overflow: 'auto', padding: '2rem' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <MainContent sampleTodos={sampleTodos} theme={theme} openModal={openModal} />
           </div>
         </div>
       </CoreLayout>
+
+      <Modal open={modal.open && modal.key === "profile"} onClose={closeModal} title="My Profile">
+        <Profile user={user} onLogout={() => { closeModal(); }} />
+      </Modal>
 
       <Modal open={modal.open && modal.key === "about"} onClose={closeModal} title="About Sheline">
         <AboutComponent />
