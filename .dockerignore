@@ -1,0 +1,10 @@
+node_modules
+my-app/node_modules
+dist
+my-app/dist
+__pycache__
+*.pyc
+.env
+.vscode
+.git
+.gitignore

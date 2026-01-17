@@ -2,7 +2,93 @@ import React, { useEffect, useState, useRef, useMemo, useContext } from "react";
 
 const CAL_STORAGE = "calender_view_events_v1";
 
-/* --- AUTH (simple username-based) --- */
+/* --- Date utility functions --- */
+function formatDateKey(date) {
+  return date.toISOString().split('T')[0];
+}
+
+function startOfMonth(date) {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+}
+
+function endOfMonth(date) {
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+}
+
+function addMonths(date, n) {
+  return new Date(date.getFullYear(), date.getMonth() + n, 1);
+}
+
+function addDays(date, n) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + n);
+  return d;
+}
+
+function isSameDay(a, b) {
+  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
+
+function formatMonthYear(date) {
+  return date.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+}
+
+/* --- Card Component --- */
+function Card({ children }) {
+  return (
+    <div style={{ background: 'inherit', borderRadius: 8, padding: 16 }}>
+      {children}
+    </div>
+  );
+}
+
+/* --- Main Content Component --- */
+function MainContent({ sampleTodos, theme, openModal }) {
+  const [todos, setTodos] = useState(sampleTodos);
+  const [newTodo, setNewTodo] = useState('');
+
+  function addTodo() {
+    if (!newTodo.trim()) return;
+    setTodos([...todos, { id: Date.now(), text: newTodo, done: false }]);
+    setNewTodo('');
+  }
+
+  function toggleTodo(id) {
+    setTodos(todos.map(t => t.id === id ? { ...t, done: !t.done } : t));
+  }
+
+  function deleteTodo(id) {
+    setTodos(todos.filter(t => t.id !== id));
+  }
+
+  return (
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+        <h2 style={{ margin: 0 }}>Dashboard</h2>
+        <button onClick={() => openModal('about')} style={{ padding: '8px 12px', cursor: 'pointer' }}>About</button>
+      </div>
+      
+      <h3>Quick Tasks</h3>
+      <div style={{ marginBottom: 16 }}>
+        <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+          <input value={newTodo} onChange={(e) => setNewTodo(e.target.value)} placeholder="Add a task..." style={{ flex: 1, padding: 8, borderRadius: 4, border: '1px solid #ddd' }} />
+          <button onClick={addTodo} style={{ padding: '8px 12px', background: '#0b5cff', color: 'white', cursor: 'pointer', borderRadius: 4, border: 'none' }}>Add</button>
+        </div>
+        {todos.map(todo => (
+          <div key={todo.id} style={{ display: 'flex', gap: 8, padding: 8, background: theme === 'dark' ? '#1a2332' : '#f0f4f8', borderRadius: 4, marginBottom: 8, alignItems: 'center' }}>
+            <input type="checkbox" checked={todo.done} onChange={() => toggleTodo(todo.id)} />
+            <span style={{ flex: 1, textDecoration: todo.done ? 'line-through' : 'none', opacity: todo.done ? 0.6 : 1 }}>{todo.text}</span>
+            <button onClick={() => deleteTodo(todo.id)} style={{ padding: '4px 8px', background: '#ff4444', color: 'white', cursor: 'pointer', borderRadius: 4, border: 'none', fontSize: 12 }}>Delete</button>
+          </div>
+        ))}
+      </div>
+      
+      <CalenderView />
+    </div>
+  );
+}
+
+/* --- Auth Context --- */
 const AuthContext = React.createContext(null);
 
 function AuthProvider({ children }) {
@@ -31,6 +117,24 @@ function AuthProvider({ children }) {
 function useAuth() {
   return useContext(AuthContext);
 }
+
+/* --- Modal Component --- */
+function Modal({ open, onClose, title, children }) {
+  if (!open) return null;
+  return (
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }} onClick={onClose}>
+      <div style={{ background: 'white', borderRadius: 8, padding: 24, width: 'auto', maxWidth: 500, boxShadow: '0 8px 32px rgba(0,0,0,0.24)' }} onClick={(e) => e.stopPropagation()}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+          <h3 style={{ margin: 0 }}>{title}</h3>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer' }}>×</button>
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/* --- Auth Context --- */
 
 function Login({ onSuccess }) {
   const [name, setName] = useState("");
